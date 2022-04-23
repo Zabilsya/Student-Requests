@@ -8,6 +8,14 @@ import {User} from "./users/users.model";
 import {UserType} from "./users/user-types.model";
 import { GroupsModule } from './groups/groups.module';
 import {Group} from "./groups/groups.model";
+import { AuthModule } from './auth/auth.module';
+import { RecoveryTokensModule } from './recovery-tokens/recovery-tokens.module';
+import {RecoveryToken} from "./recovery-tokens/recovery-tokens.model";
+import { ScheduleModule } from './schedule/schedule.module';
+import { FilesModule } from './files/files.module';
+import {ServeStaticModule} from "@nestjs/serve-static";
+import * as path from 'path'
+
 
 @Module({
   controllers: [AppController],
@@ -16,6 +24,9 @@ import {Group} from "./groups/groups.model";
       ConfigModule.forRoot({
           envFilePath: '.env'
       }),
+      ServeStaticModule.forRoot({
+          rootPath: path.resolve(__dirname, 'static')
+      }),
       SequelizeModule.forRoot({
         dialect: 'postgres',
         host: process.env.DATABASE_HOST,
@@ -23,11 +34,15 @@ import {Group} from "./groups/groups.model";
         username: process.env.DATABASE_USER,
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_NAME,
-        models: [User, UserType, Group],
+        models: [User, UserType, Group, RecoveryToken],
         autoLoadModels: true
       }),
       UsersModule,
-      GroupsModule
+      GroupsModule,
+      AuthModule,
+      RecoveryTokensModule,
+      ScheduleModule,
+      FilesModule
   ],
 })
 export class AppModule {}

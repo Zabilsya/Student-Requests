@@ -10,7 +10,7 @@ interface MailOptions {
 @Injectable()
 export default class MailService {
 
-    static sendEmail(options: MailOptions): void {
+    static sendMessage(options: MailOptions): void {
         const transporter = nodemailer.createTransport({
             service: process.env.MAIL_SERVICE,
             auth: {

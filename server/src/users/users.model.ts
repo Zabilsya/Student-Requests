@@ -1,6 +1,8 @@
-import {Model, Column, DataType, Table, BelongsTo, ForeignKey} from "sequelize-typescript";
+import {Model, Column, DataType, Table, BelongsTo, ForeignKey, HasOne, HasMany} from "sequelize-typescript";
 import {UserType} from "./user-types.model";
 import {Group} from "../groups/groups.model";
+import {RecoveryToken} from "../recovery-tokens/recovery-tokens.model";
+import DateTimeFormat = Intl.DateTimeFormat;
 
 @Table({tableName: 'user'})
 export class User extends Model<User> {
@@ -24,7 +26,19 @@ export class User extends Model<User> {
     password: string
 
     @Column({type: DataType.STRING})
+    phone_number: string
+
+    @Column({type: DataType.DATEONLY})
+    date_of_birth: Date
+
+    @Column({type: DataType.STRING})
+    avatar: string
+
+    @Column({type: DataType.STRING})
     position: string
+
+    @Column({type: DataType.BOOLEAN, defaultValue: false})
+    is_blocked: boolean
 
     @ForeignKey(() => UserType)
     @Column({type: DataType.INTEGER, allowNull: false})
@@ -39,4 +53,7 @@ export class User extends Model<User> {
 
     @BelongsTo(() => Group)
     group: Group
+
+    @HasOne(() => RecoveryToken)
+    recovery_token: RecoveryToken
 }
