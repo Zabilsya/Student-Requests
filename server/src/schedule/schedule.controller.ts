@@ -1,10 +1,20 @@
-import {Body, Controller, Delete, Get, Post, Put, UploadedFiles, UseGuards, UseInterceptors} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UploadedFiles,
+    UseGuards,
+    UseInterceptors
+} from '@nestjs/common';
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {ScheduleService} from "./schedule.service";
 import {CreateScheduleDto} from "./dto/create-schedule.dto";
-import {FileInterceptor, FilesInterceptor} from "@nestjs/platform-express";
+import {FileFieldsInterceptor, FileInterceptor, FilesInterceptor} from "@nestjs/platform-express";
 import {UpdateScheduleDto} from "./dto/update-schedule.dto";
-import {DeleteScheduleDto} from "./dto/delete-schedule.dto";
 
 @Controller('schedule')
 export class ScheduleController {
@@ -20,23 +30,23 @@ export class ScheduleController {
 
     @UseGuards(JwtAuthGuard)
     @Post('/create')
-    @UseInterceptors(FilesInterceptor('files'))
-    create(@Body() dto: CreateScheduleDto, @UploadedFiles() files) {
+    @UseInterceptors(FileFieldsInterceptor([{ name: 'files', maxCount: 10 }]))
+    create(@Body() dto: CreateScheduleDto, @UploadedFiles() files: { docs?: Express.Multer.File[] }) {
         return this.scheduleService.createSchedule(dto, files)
     }
 
 
     @UseGuards(JwtAuthGuard)
     @Post('/update')
-    @UseInterceptors(FilesInterceptor('files'))
-    update(@Body() dto: UpdateScheduleDto, @UploadedFiles() files) {
+    @UseInterceptors(FileFieldsInterceptor([{ name: 'files', maxCount: 10 }]))
+    update(@Body() dto: UpdateScheduleDto, @UploadedFiles() files: { docs?: Express.Multer.File[] }) {
         return this.scheduleService.updateSchedule(dto, files)
     }
 
 
     @UseGuards(JwtAuthGuard)
-    @Delete('/delete')
-    delete(@Body() dto: DeleteScheduleDto) {
-        return this.scheduleService.deleteSchedule(dto)
+    @Delete('/delete/:id')
+    delete(@Param('id') id: number) {
+        return this.scheduleService.deleteSchedule(id)
     }
 }

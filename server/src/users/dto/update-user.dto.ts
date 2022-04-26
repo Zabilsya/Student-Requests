@@ -30,6 +30,7 @@ export class UpdateUserDto {
     @IsPhoneNumber('RU', {message: "Некорректный номер телефона"})
     readonly phone_number: string
 
+    @IsOptional()
     @IsDateString({}, {message: "Неккоретная дата рождения"})
     date_of_birth: Date
 

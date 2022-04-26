@@ -6,7 +6,11 @@ import {Group} from "./groups.model";
 export class GroupsService {
     constructor(@InjectModel(Group) private groupRepository: typeof Group) {}
 
-    async createGroup(name: string) {
+    async getGroups() {
+        return await this.groupRepository.findAll()
+    }
+
+    async createGroup(name: string): Promise<number> {
         const nameUpper = name.toUpperCase()
         const group = await this.groupRepository.findOne({where: {name: nameUpper}})
         if (group) {

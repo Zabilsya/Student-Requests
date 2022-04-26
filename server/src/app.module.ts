@@ -14,7 +14,15 @@ import {RecoveryToken} from "./recovery-tokens/recovery-tokens.model";
 import { ScheduleModule } from './schedule/schedule.module';
 import { FilesModule } from './files/files.module';
 import {ServeStaticModule} from "@nestjs/serve-static";
+import { RequestTemplatesModule } from './request-templates/request-templates.module';
+import {Schedule} from "./schedule/schedule.model";
+import {ScheduleTitle} from "./schedule/schedule-title.model";
 import * as path from 'path'
+import {RequestTemplate} from "./request-templates/request-templates.model";
+import { NewsModule } from './news/news.module';
+import {News} from "./news/news.model";
+import {NewsGroup} from "./news/news-group.model";
+import {NewsFile} from "./news/news-file.model";
 
 
 @Module({
@@ -34,7 +42,7 @@ import * as path from 'path'
         username: process.env.DATABASE_USER,
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_NAME,
-        models: [User, UserType, Group, RecoveryToken],
+        models: [User, UserType, Group, RecoveryToken, Schedule, ScheduleTitle, RequestTemplate, News, NewsGroup, NewsFile],
         autoLoadModels: true
       }),
       UsersModule,
@@ -42,7 +50,9 @@ import * as path from 'path'
       AuthModule,
       RecoveryTokensModule,
       ScheduleModule,
-      FilesModule
+      FilesModule,
+      RequestTemplatesModule,
+      NewsModule
   ],
 })
 export class AppModule {}

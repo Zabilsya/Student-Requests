@@ -7,7 +7,6 @@ import * as generatePassword from "password-generator";
 import * as bcrypt from 'bcryptjs';
 import {GroupsService} from "../groups/groups.service";
 import PaginateService from "../paginate/paginate.service";
-import {DeleteScheduleDto} from "../schedule/dto/delete-schedule.dto";
 import {UpdateProfileDto} from "./dto/update-profile.dto";
 import {FilesService} from "../files/files.service";
 import {UpdateUserDto} from "./dto/update-user.dto";
@@ -44,15 +43,17 @@ export class UsersService {
 
 
     async getUserById(id: number): Promise<User> {
-        return await this.userRepository.findByPk(id)
+        const user = await this.userRepository.findOne({where: {id, is_blocked: false}})
+        if (!user) {
+            throw new HttpException('Пользователя с таким идентификатором не существует', HttpStatus.BAD_REQUEST)
+        }
+        return user
     }
 
 
     async createUser(dto: CreateUserDto): Promise<User> {
         const user = await this.getUserByEmail(dto.email)
-        if (user) {
-            throw new HttpException('Пользователь с таким Email уже существует', HttpStatus.BAD_REQUEST)
-        }
+
         if (dto.group_name) {
             dto['group_id'] = await this.groupsService.createGroup(dto.group_name)
         }
@@ -64,17 +65,17 @@ export class UsersService {
     }
 
 
-    async deleteUser(dto: DeleteScheduleDto): Promise<User> {
-        const user = await this.getUserById(dto.id)
+    async deleteUser(id: number): Promise<User> {
+        const user = await this.getUserById(id)
         return await user.update({is_blocked: true})
     }
 
 
-    async updateUserById(id: number, dto: UpdateProfileDto, image: any) {
+    async updateUserById(id: number, dto: UpdateProfileDto, file: any) {
         const user = await this.getUserById(id)
         let filePath = ''
-        if (image) {
-            filePath = await this.fileService.createFile(image, this.avatarDirectory)
+        if (file.image) {
+            filePath = await this.fileService.createFile(file.image[0], this.avatarDirectory)
             await this.fileService.deleteFile(user.avatar)
         }
         return await user.update({

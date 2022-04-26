@@ -5,7 +5,6 @@ import {ScheduleTitle} from "./schedule-title.model";
 import {FilesService} from "../files/files.service";
 import {CreateScheduleDto} from "./dto/create-schedule.dto";
 import {UpdateScheduleDto} from "./dto/update-schedule.dto";
-import {DeleteScheduleDto} from "./dto/delete-schedule.dto";
 
 @Injectable()
 export class ScheduleService {
@@ -23,13 +22,13 @@ export class ScheduleService {
     }
 
 
-    async createSchedule(dto: CreateScheduleDto, files: any[]): Promise<void> {
+    async createSchedule(dto: CreateScheduleDto, files: any): Promise<void> {
         const scheduleTitle = await this.scheduleTitleRepository.create(dto)
-        await this.createFiles(scheduleTitle.id, files)
+        await this.createFiles(scheduleTitle.id, files.docs)
     }
 
 
-    async updateSchedule(dto: UpdateScheduleDto, files: any[]): Promise<void> {
+    async updateSchedule(dto: UpdateScheduleDto, files: any): Promise<void> {
         const scheduleTitle = await this.scheduleTitleRepository.findByPk(dto.id)
         if (!scheduleTitle) {
             throw new HttpException('Расписания с таким идентификатором не существует', HttpStatus.NOT_FOUND)
@@ -43,17 +42,17 @@ export class ScheduleService {
                 await this.fileService.deleteFile(dto.deleted_files[i]['file_path'])
             }
         }
-        await this.createFiles(scheduleTitle.id, files)
+        await this.createFiles(scheduleTitle.id, files.docs)
     }
 
 
-    async deleteSchedule(dto: DeleteScheduleDto) {
-        const scheduleDocs = await this.scheduleRepository.findAll({where: {title_id: dto.id}})
+    async deleteSchedule(id: number) {
+        const scheduleDocs = await this.scheduleRepository.findAll({where: {title_id: id}})
         for (let i = 0; i < scheduleDocs.length; i++) {
             await this.scheduleRepository.destroy({where: {id: scheduleDocs[i].id}})
             await this.fileService.deleteFile(scheduleDocs[i].file_path)
         }
-        return await this.scheduleTitleRepository.destroy({where: {id: dto.id}})
+        return await this.scheduleTitleRepository.destroy({where: {id}})
     }
 
 

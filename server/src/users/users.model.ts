@@ -2,7 +2,7 @@ import {Model, Column, DataType, Table, BelongsTo, ForeignKey, HasOne, HasMany} 
 import {UserType} from "./user-types.model";
 import {Group} from "../groups/groups.model";
 import {RecoveryToken} from "../recovery-tokens/recovery-tokens.model";
-import DateTimeFormat = Intl.DateTimeFormat;
+import {RequestTemplate} from "../request-templates/request-templates.model";
 
 @Table({tableName: 'user'})
 export class User extends Model<User> {
@@ -56,4 +56,7 @@ export class User extends Model<User> {
 
     @HasOne(() => RecoveryToken)
     recovery_token: RecoveryToken
+
+    @HasMany(() => RequestTemplate)
+    requestTemplate: RequestTemplate
 }
