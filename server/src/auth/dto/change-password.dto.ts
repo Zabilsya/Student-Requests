@@ -11,7 +11,7 @@ export class ChangePasswordDto {
 
     @IsString({message: 'Пароль должен быть строкой'})
     @Length(6, 16, {message: 'Пароль должен быть от 6 до 16 символов'})
-    readonly confirm_password: string
+    readonly confirmPassword: string
 
     @IsString({message: 'Токен должен быть строкой'})
     readonly token: string

@@ -7,6 +7,7 @@ import {LoginDto} from "./dto/login.dto";
 import {ChangePasswordDto} from "./dto/change-password.dto";
 import * as generatePassword from "password-generator";
 import {RecoveryTokensService} from "../recovery-tokens/recovery-tokens.service";
+import {CheckTokenDto} from "./dto/check-token.dto";
 
 @Injectable()
 export class AuthService {
@@ -18,9 +19,9 @@ export class AuthService {
     ) {}
 
 
-    async login(loginDto: LoginDto): Promise<string> {
-        const user = await this.validateUser(loginDto)
-        return this.generateToken(user)
+    async login(dto: LoginDto): Promise<string> {
+        const user = await this.validateUser(dto)
+        return await this.generateToken(user)
     }
 
 
@@ -30,7 +31,7 @@ export class AuthService {
             throw new HttpException('Неккоректный Email', HttpStatus.BAD_REQUEST)
         }
         await this.recoveryTokensService.isValidToken(dto)
-        if (dto.password !== dto.confirm_password) {
+        if (dto.password !== dto.confirmPassword) {
             throw new HttpException('Пароли не совпадают', HttpStatus.BAD_REQUEST)
         }
         const hashedPassword = await bcrypt.hash(dto.password, 5)
@@ -50,11 +51,11 @@ export class AuthService {
     private async validateUser(dto: LoginDto): Promise<User> {
         const user = await this.usersService.getUserByEmail(dto.email)
         if (!user) {
-            throw new UnauthorizedException({message: 'Неккоректный Email'})
+            throw new HttpException({email: 'Неккоректный Email'}, HttpStatus.BAD_REQUEST)
         }
         const isPasswordEquals = await bcrypt.compare(dto.password, user.password)
         if (!isPasswordEquals) {
-            throw new UnauthorizedException({message: 'Неккоректный пароль'})
+            throw new HttpException({password: 'Неккоректный пароль'}, HttpStatus.BAD_REQUEST)
         }
         return user
     }
