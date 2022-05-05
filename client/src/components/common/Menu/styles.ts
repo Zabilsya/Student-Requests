@@ -22,11 +22,13 @@ const menuItem = css`
 `
 
 export const MenuList = styled.aside`
+    flex-basis: 24%;
+    position: sticky;
+    top: 30px;
     ${flexColumn};
     gap: 15px;
-    flex-basis: 24%;
     width: 100%;
-    padding: 20px 0 20px 20px;
+    padding: 20px;
     ${defaultBlockStyles};
     .active {
         color: ${blue};

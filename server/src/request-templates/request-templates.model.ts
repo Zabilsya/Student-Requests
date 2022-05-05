@@ -1,5 +1,6 @@
-import {Model, Column, DataType, Table, ForeignKey, BelongsTo} from "sequelize-typescript";
+import {Model, Column, DataType, Table, ForeignKey, BelongsTo, HasMany} from "sequelize-typescript";
 import {User} from "../users/users.model";
+import {Request} from "../requests/requests.model";
 
 @Table({tableName: 'request_template', createdAt: false, updatedAt: false})
 export class RequestTemplate extends Model<RequestTemplate> {
@@ -22,4 +23,7 @@ export class RequestTemplate extends Model<RequestTemplate> {
 
     @BelongsTo(() => User)
     user: User
+
+    @HasMany(() => Request)
+    request: Request
 }

@@ -4,8 +4,7 @@ import {
     Delete,
     Get,
     Param,
-    Post,
-    Put,
+    Post, Put,
     UploadedFiles,
     UseGuards,
     UseInterceptors
@@ -13,7 +12,7 @@ import {
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {ScheduleService} from "./schedule.service";
 import {CreateScheduleDto} from "./dto/create-schedule.dto";
-import {FileFieldsInterceptor, FileInterceptor, FilesInterceptor} from "@nestjs/platform-express";
+import {FileFieldsInterceptor} from "@nestjs/platform-express";
 import {UpdateScheduleDto} from "./dto/update-schedule.dto";
 
 @Controller('schedule')
@@ -30,16 +29,16 @@ export class ScheduleController {
 
     @UseGuards(JwtAuthGuard)
     @Post('/create')
-    @UseInterceptors(FileFieldsInterceptor([{ name: 'files', maxCount: 10 }]))
-    create(@Body() dto: CreateScheduleDto, @UploadedFiles() files: { docs?: Express.Multer.File[] }) {
+    @UseInterceptors(FileFieldsInterceptor([{ name: 'docs', maxCount: 10 }]))
+    create(@Body() dto: CreateScheduleDto, @UploadedFiles() files?: Express.Multer.File) {
         return this.scheduleService.createSchedule(dto, files)
     }
 
 
     @UseGuards(JwtAuthGuard)
-    @Post('/update')
-    @UseInterceptors(FileFieldsInterceptor([{ name: 'files', maxCount: 10 }]))
-    update(@Body() dto: UpdateScheduleDto, @UploadedFiles() files: { docs?: Express.Multer.File[] }) {
+    @Put('/update')
+    @UseInterceptors(FileFieldsInterceptor([{ name: 'docs', maxCount: 10 }]))
+    update(@Body() dto: UpdateScheduleDto, @UploadedFiles() files?: Express.Multer.File[]) {
         return this.scheduleService.updateSchedule(dto, files)
     }
 

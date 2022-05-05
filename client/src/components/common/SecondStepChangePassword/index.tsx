@@ -4,7 +4,6 @@ import {confirmRecoveryToken} from "../../../store/reducers/Auth/Actions";
 import {MarginWrapper} from "../../styled/wrappers";
 import Input from "../../UI/Input";
 import Link from "../../UI/Link";
-import {RoutesList} from "../../../const";
 import Button from "../../UI/Button";
 import {ReactChange} from "../../../types/react";
 import {IChangePassword, IConfirmToken} from "../../../store/reducers/Auth/Models";

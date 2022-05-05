@@ -105,7 +105,7 @@ export class NewsService {
 
 
     async getSearchQueryForNews(userData: any) {
-        let searchQuery: object = {include: {all: true}}
+        let searchQuery: object = {include: {all: true}, distinct: true}
         if (userData.user_type === 3) {
             const { group_id } = await this.usersService.getUserById(userData.id)
             const news = await this.newsGroupRepository.findAll({where: {group_id}})
@@ -123,14 +123,15 @@ export class NewsService {
 
 
     private async saveImage(file: any): Promise<string> {
-        return await this.fileService.createFile(file, this.imageDirectory)
+        const {path} = await this.fileService.createFile(file, this.imageDirectory)
+        return path
     }
 
 
     private async saveDocs(newsId: number, files: any[]): Promise<void> {
         for (let i = 0; i < files.length; i++) {
-            const filePath = await this.fileService.createFile(files[i], this.docsDirectory)
-            await this.newsFileRepository.create({file_name: files[i].originalname, file_path: filePath, news_id: newsId})
+            const fileData = await this.fileService.createFile(files[i], this.docsDirectory)
+            await this.newsFileRepository.create({file_name: files[i].originalname, file_path: fileData.path, news_id: newsId})
         }
     }
 

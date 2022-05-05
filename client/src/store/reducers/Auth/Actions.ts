@@ -1,8 +1,7 @@
 import apiClient from "../../../services/axios";
 import {IChangePassword, IConfirmToken, IEmail, ILogin, IToken} from "./Models";
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import browserHistory from "../../../routes/history";
-
+import {IUser} from "../Users/Models";
 
 export const login = createAsyncThunk('auth', async (data: ILogin, thunkApi) => {
     try {
@@ -16,6 +15,13 @@ export const login = createAsyncThunk('auth', async (data: ILogin, thunkApi) => 
             return thunkApi.rejectWithValue('Произошла непредвиденная ошибка')
         }
     }
+})
+
+export const getProfile = createAsyncThunk('getProfile', async (_, thunkApi) => {
+    try {
+        const response = await apiClient.get<IUser>('/users/get-profile')
+        return response.data
+    } catch (error: any) {}
 })
 
 export const getRecoveryToken = createAsyncThunk('send-token', async (data: IEmail, thunkApi) => {

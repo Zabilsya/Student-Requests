@@ -1,8 +1,10 @@
 import {BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError} from "@reduxjs/toolkit/query";
 import { createApi } from '@reduxjs/toolkit/query/react'
-import {IUser} from "../store/reducers/Users/Models";
+import {IUser, IUserFilter} from "../store/reducers/Users/Models";
 import browserHistory from "../routes/history";
 import {RoutesList} from "../const";
+import {IPaginationData} from "../types/pagination";
+
 
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL + '/users',
@@ -26,13 +28,29 @@ const queryInterceptor: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryE
 export const usersAPI = createApi({
     reducerPath: 'usersAPI',
     baseQuery: queryInterceptor,
-    tagTypes: ['Users', 'Profile'],
+    tagTypes: ['Users', 'Profile', 'Workers'],
     endpoints: (build) => ({
         getProfile: build.query<IUser, string>({
             query: () => ({
                 url: `/get-profile`
             }),
             providesTags: result => ['Profile']
+        }),
+        getUsers: build.query<IPaginationData<IUser>, IUserFilter>({
+            query: ({page, user_type}) => ({
+                url: `/get-all`,
+                params: {
+                    page: page,
+                    user_type: user_type
+                }
+            }),
+            providesTags: result => ['Users']
+        }),
+        getWorkers: build.query<IUser[], void>({
+            query: () => ({
+                url: `/get-workers`
+            }),
+            providesTags: result => ['Workers']
         }),
     })
 })

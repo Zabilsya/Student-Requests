@@ -2,11 +2,11 @@ import React, {FC, ReactNode} from 'react';
 import {
     Container,
     PrivateLayoutStyled,
-    Content, MainContainer
+    MainContainer,
+    ContentWrapper
 } from './styles';
 import Menu from "../../common/Menu";
 import Header from "../../common/Header";
-import PageHeader from "../../common/PageHeader";
 
 interface Props {
     children: ReactNode
@@ -19,10 +19,9 @@ const PrivateLayout: FC<Props> = ({children}) => {
             <Container>
                 <MainContainer>
                     <Menu />
-                    <Content>
-                        <PageHeader title="Список пользователей"/>
+                    <ContentWrapper>
                         {children}
-                    </Content>
+                    </ContentWrapper>
                 </MainContainer>
             </Container>
         </PrivateLayoutStyled>

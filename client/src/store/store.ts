@@ -1,21 +1,29 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import authReducer from './reducers/Auth/AuthSlice'
-import usersReducer from './reducers/Users/UsersSlice'
 import {usersAPI} from "../services/UsersService";
+import {scheduleAPI} from "../services/ScheduleService";
+import {requestTemplatesAPI} from "../services/RequestTemplatesService";
+import {requestsAPI} from "../services/RequestsService";
 
 const rootReducer = combineReducers({
     authReducer,
-    [usersAPI.reducerPath]: usersAPI.reducer
+    [usersAPI.reducerPath]: usersAPI.reducer,
+    [scheduleAPI.reducerPath]: scheduleAPI.reducer,
+    [requestTemplatesAPI.reducerPath]: requestTemplatesAPI.reducer,
+    [requestsAPI.reducerPath]: requestsAPI.reducer,
 })
 
 export const setupStore = () => {
     return configureStore({
         reducer: rootReducer,
         middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware()
+            getDefaultMiddleware({serializableCheck: false})
                 .concat(
-                    usersAPI.middleware
-                )
+                    usersAPI.middleware,
+                    scheduleAPI.middleware,
+                    requestTemplatesAPI.middleware,
+                    requestsAPI.middleware
+                ),
     })
 }
 

@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {usersAPI} from "../../../services/UsersService";
 import {Initials, ProfileDataWrapper} from "./styles";
 import DropDownProfile from "../DropDownProfile";
+import {useAppSelector} from "../../../hooks/redux";
 
 const ProfileHeader = () => {
-    const {data: profile} = usersAPI.useGetProfileQuery('')
+    const { profile } = useAppSelector(state => state.authReducer)
     const [isActiveDropDown, setIsActiveDropDown] = useState(false)
 
     const handleOutsideClick = () => {

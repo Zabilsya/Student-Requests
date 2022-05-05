@@ -3,7 +3,7 @@ import browserHistory from './routes/history'
 import CustomRouter from './routes/CustomRoute';
 import useProfile from "./hooks/useProfile";
 import useRoutes from "./routes/useRoutes";
-
+import 'moment/locale/ru';
 
 const App: FC = () => {
     const { userType, isLoadingProfile } = useProfile()

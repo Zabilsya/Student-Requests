@@ -52,9 +52,16 @@ export class UsersController {
 
 
     @UseGuards(JwtAuthGuard)
-    @Get('/get-all-users')
+    @Get('/get-all')
     getAllUsers(@Query() query) {
         return this.usersService.getAllUsers(query)
+    }
+
+
+    @UseGuards(JwtAuthGuard)
+    @Get('/get-workers')
+    getAllWorkers() {
+        return this.usersService.getAllWorkers()
     }
 
 

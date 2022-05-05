@@ -18,8 +18,9 @@ export const MainContainer = styled.main`
     align-items: flex-start;
     gap: 30px;
     margin-top: 30px;
+    padding-bottom: 30px;
 `
 
-export const Content = styled.div`
+export const ContentWrapper = styled.div`
     flex-basis: 76%;
 `

@@ -23,11 +23,18 @@ import { NewsModule } from './news/news.module';
 import {News} from "./news/news.model";
 import {NewsGroup} from "./news/news-group.model";
 import {NewsFile} from "./news/news-file.model";
+import {Request} from "./requests/requests.model"
+import { RequestsModule } from './requests/requests.module';
+import {RequestFile} from "./requests/requests-file.model";
+import {RequestStatus} from "./requests/request-statuses.model";
+import { AppGateway } from './app.gateway';
+import {RequestMessage} from "./requests/request-messages.model";
+import { WebsocketModule } from './websocket/websocket.module';
 
 
 @Module({
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppGateway],
   imports: [
       ConfigModule.forRoot({
           envFilePath: '.env'
@@ -42,7 +49,22 @@ import {NewsFile} from "./news/news-file.model";
         username: process.env.DATABASE_USER,
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_NAME,
-        models: [User, UserType, Group, RecoveryToken, Schedule, ScheduleTitle, RequestTemplate, News, NewsGroup, NewsFile],
+        models: [
+            User,
+            UserType,
+            Group,
+            RecoveryToken,
+            Schedule,
+            ScheduleTitle,
+            RequestTemplate,
+            Request,
+            RequestStatus,
+            RequestFile,
+            RequestMessage,
+            News,
+            NewsGroup,
+            NewsFile
+        ],
         autoLoadModels: true
       }),
       UsersModule,
@@ -52,7 +74,9 @@ import {NewsFile} from "./news/news-file.model";
       ScheduleModule,
       FilesModule,
       RequestTemplatesModule,
-      NewsModule
+      NewsModule,
+      RequestsModule,
+      WebsocketModule
   ],
 })
 export class AppModule {}

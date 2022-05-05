@@ -60,7 +60,7 @@ export class NewsController {
 
     @UseGuards(JwtAuthGuard)
     @Get('/get/:id')
-    getProfile(@Req() request, @Param('id') id: number) {
+    getNews(@Req() request, @Param('id') id: number) {
         return this.newsService.getNewsById(id, request.user)
     }
 }

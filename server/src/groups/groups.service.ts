@@ -10,6 +10,12 @@ export class GroupsService {
         return await this.groupRepository.findAll()
     }
 
+
+    async getGroupsByIds(ids: number[]) {
+        return await this.groupRepository.findAll({where: {id: ids}})
+    }
+
+
     async createGroup(name: string): Promise<number> {
         const nameUpper = name.toUpperCase()
         const group = await this.groupRepository.findOne({where: {name: nameUpper}})

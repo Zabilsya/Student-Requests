@@ -27,6 +27,16 @@ const Menu = () => {
                 Мои запросы
             </MenuItem>
 
+            <MenuItem to={RoutesList.RequestTemplates}>
+                <IoNewspaperOutline size="25px" color={lightGray} />
+                Управление запросами
+            </MenuItem>
+
+            <MenuItem to={RoutesList.Users}>
+                <IoNewspaperOutline size="25px" color={lightGray} />
+                Пользователи
+            </MenuItem>
+
             <MenuItem to={RoutesList.Schedule}>
                 <IoNewspaperOutline size="25px" color={lightGray} />
                 Расписание занятий
@@ -49,13 +59,11 @@ const Menu = () => {
                 </MenuSubItemList>
             </MenuItemWithChildren>
 
-
-
             <MenuItem to={RoutesList.FAQ}>
                 <IoNewspaperOutline size="25px" color={lightGray} />
                 Часто задаваемые вопросы
             </MenuItem>
-            
+
         </MenuList>
     );
 };

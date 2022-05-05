@@ -13,10 +13,18 @@ export const FormWrapper = styled.div<FormWrapperProps>`
     ${defaultBlockStyles};
 `
 
-export const ModalWrapper = styled.div`
-    background: ${black};
-    opacity: .5;
-    ${backdropOnMobile}
+export const FilterPanelWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 16px 20px;
+    margin-bottom: 30px;
+    ${defaultBlockStyles};
+`
+
+export const PageWrapper = styled.div`
+    ${defaultBlockStyles};
+    padding: 30px;
 `
 
 interface FlexWrapperProps {

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import {blue, flexColumn, lightBlue, lightGray, red, transition, white} from "../../../const/styles";
+import {blue, flexColumn, labelStyles, lightBlue, lightGray, red, transition, white} from "../../../const/styles";
 
 export const Label = styled.label`
     ${flexColumn};
@@ -8,12 +8,7 @@ export const Label = styled.label`
 `;
 
 export const LabelTitle = styled.span`
-    color: ${lightGray};
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 150%;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    ${labelStyles};
 `;
 
 interface InputProps {

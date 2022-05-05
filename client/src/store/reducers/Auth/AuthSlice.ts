@@ -1,16 +1,27 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {changePassword, confirmRecoveryToken, getRecoveryToken, login} from "./Actions";
+import {getProfile, changePassword, confirmRecoveryToken, getRecoveryToken, login} from "./Actions";
 import {IChangePassword} from "./Models";
+import {Socket} from "socket.io-client";
+import {IUser} from "../Users/Models";
+import {WebSocketService} from "../../../services/websocket";
 
 interface AuthState {
-    isAuth: boolean,
-    changePasswordStep: number,
-    redirectToLogin: boolean,
+    isAuth: boolean
+    profile: IUser |  null
+    isLoadedProfile: boolean
+    isLogin: boolean
+    webSocket: any
+    changePasswordStep: number
+    redirectToLogin: boolean
     errors: IChangePassword | null
 }
 
 const initialState: AuthState = {
     isAuth: false,
+    profile: null,
+    isLoadedProfile: false,
+    isLogin: false,
+    webSocket: null,
     changePasswordStep: 1,
     redirectToLogin: false,
     errors: null
@@ -20,6 +31,9 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+        connectWebSocket: (state) => {
+            state.webSocket = WebSocketService.connect()
+        },
         setRedirect: (state) => {
             state.redirectToLogin = true
         },
@@ -33,11 +47,19 @@ export const authSlice = createSlice({
             //loader
         },
         [login.fulfilled.type]: (state) => {
-            state.isAuth = true
+            state.isLogin = true
             state.errors = null
         },
         [login.rejected.type]: (state, action: PayloadAction<IChangePassword>) => {
             state.errors = action.payload
+        },
+        [getProfile.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+            state.profile = action.payload
+            state.isLoadedProfile = true
+            state.isAuth = true
+        },
+        [getProfile.pending.type]: (state) => {
+            state.isLoadedProfile = false
         },
         [getRecoveryToken.pending.type]: (state) => {
             //loader

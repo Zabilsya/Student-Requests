@@ -17,14 +17,15 @@ export class ScheduleService {
     ) {}
 
 
-    async getSchedule(): Promise<Schedule[]> {
-        return await this.scheduleRepository.findAll({include: {all: true}})
+    async getSchedule(): Promise<ScheduleTitle[]> {
+        return await this.scheduleTitleRepository.findAll({include: {all: true}})
     }
 
 
-    async createSchedule(dto: CreateScheduleDto, files: any): Promise<void> {
+    async createSchedule(dto: CreateScheduleDto, files: any): Promise<ScheduleTitle> {
         const scheduleTitle = await this.scheduleTitleRepository.create(dto)
         await this.createFiles(scheduleTitle.id, files.docs)
+        return scheduleTitle
     }
 
 
@@ -57,9 +58,11 @@ export class ScheduleService {
 
 
     private async createFiles(scheduleTitleId: number, files: any[]) {
-        for (let i = 0; i < files.length; i++) {
-            const filePath = await this.fileService.createFile(files[i], this.fileDirectory)
-            await this.scheduleRepository.create({file_name: files[i].originalname, file_path: filePath, title_id: scheduleTitleId})
+        if (files) {
+            for (let i = 0; i < files.length; i++) {
+                const {path} = await this.fileService.createFile(files[i], this.fileDirectory)
+                await this.scheduleRepository.create({file_name: files[i].originalname, file_path: path, title_id: scheduleTitleId})
+            }
         }
     }
 }

@@ -9,6 +9,8 @@ export const lightGray = '#969EA8'
 export const lightBlue = '#F1F9FF'
 export const red = '#EB5757'
 export const blue = '#005BAB'
+export const yellow = '#FACA1F'
+export const green = '#10DC86'
 
 export const small = '576px'
 
@@ -43,6 +45,15 @@ export const defaultBlockStyles = css`
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.05);
 `
 
+export const labelStyles = css`
+    color: ${lightGray};
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 150%;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+`
+
 export const lighten = (value: number) => css`
     filter: brightness(${value + 1});
 `
@@ -73,6 +84,10 @@ export const global = css`
         padding: 0;
         margin: 0;
         box-sizing: border-box;
+    }
+    html {
+        overflow-x: hidden;
+        margin-right: calc(-1 * (100vw - 100%));
     }
     body {
         font-family: ${font}, Arial, sans-serif;

@@ -15,6 +15,11 @@ export class RequestTemplatesService {
     ) {}
 
 
+    async getAllTemplates() {
+        return await this.requestTemplateRepository.findAll({where: {is_blocked: false}})
+    }
+
+
     async getTemplates(query: any) {
         const limit = 2
         const { page, offset } = PaginateService.getPaginateParams(limit, query.page)
@@ -25,7 +30,8 @@ export class RequestTemplatesService {
                 },
                 offset,
                 limit,
-                include: {all: true}
+                include: {all: true},
+                distinct: true
         })
 
         return {...result, page, totalPages: PaginateService.getTotalPages(limit, result.count)}
@@ -52,7 +58,7 @@ export class RequestTemplatesService {
 
 
     async isTemplateExist(name: string): Promise<boolean> {
-        const requestTemplate = await this.requestTemplateRepository.findOne({where: {name}})
+        const requestTemplate = await this.requestTemplateRepository.findOne({where: {name, is_blocked: false}})
         if (requestTemplate) {
             throw new HttpException('Шаблон запроса с таким названием уже существует', HttpStatus.BAD_REQUEST)
         }
@@ -61,10 +67,15 @@ export class RequestTemplatesService {
 
 
     async getTemplateById(id: number): Promise<RequestTemplate> {
-        const requestTemplate = await this.requestTemplateRepository.findByPk(id)
+        const requestTemplate = await this.requestTemplateRepository.findOne({where: {id, is_blocked: false}})
         if (!requestTemplate) {
             throw new HttpException('Шаблона запроса с таким идентификатором не существует', HttpStatus.NOT_FOUND)
         }
         return requestTemplate
+    }
+
+
+    async getTemplatesByIds(ids: number[]): Promise<RequestTemplate[]> {
+        return await this.requestTemplateRepository.findAll({where: {id: ids}, include: {all: true}})
     }
 }

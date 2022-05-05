@@ -1,20 +1,23 @@
-import React, {useEffect, useState} from 'react'
-import {useAppSelector} from "./redux";
-import {usersAPI} from "../services/UsersService";
+import React, {useEffect} from 'react'
+import {useAppDispatch, useAppSelector} from "./redux";
+import {getProfile} from "../store/reducers/Auth/Actions";
+import {authSlice} from "../store/reducers/Auth/AuthSlice";
 
 const useProfile = () => {
-    const [getProfile, {isLoading, data: profile}] = usersAPI.useLazyGetProfileQuery()
-    const { isAuth } = useAppSelector(state => state.authReducer)
-    const [isFirstLoad, setIsFirstLoad] = useState(true)
+    const { profile, isLoadedProfile, isLogin } = useAppSelector(state => state.authReducer)
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if (isAuth || isFirstLoad) {
-            getProfile('')
-            setIsFirstLoad(false)
-        }
-    }, [isAuth])
+        dispatch(getProfile())
+    }, [isLogin])
 
-    return { userType: profile?.user_type || false, isLoadingProfile: isLoading }
+    useEffect(() => {
+        if (profile) {
+            dispatch(authSlice.actions.connectWebSocket())
+        }
+    }, [profile])
+
+    return { userType: profile?.user_type || false, isLoadingProfile: !isLoadedProfile }
 }
 
 export default useProfile

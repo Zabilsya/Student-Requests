@@ -35,10 +35,16 @@ export class UsersService {
                 offset,
                 limit,
                 attributes: {exclude: ['password', 'createdAt', 'updatedAt']},
-                include: {all: true}
+                include: {all: true},
+                distinct: true
             })
 
         return {...result, page, totalPages: PaginateService.getTotalPages(limit, result.count)}
+    }
+
+
+    async getAllWorkers(): Promise<User[]> {
+        return await this.userRepository.findAll({where: {user_type: 2, is_blocked: false}})
     }
 
 
@@ -53,7 +59,9 @@ export class UsersService {
 
     async createUser(dto: CreateUserDto): Promise<User> {
         const user = await this.getUserByEmail(dto.email)
-
+        if (user) {
+            throw new HttpException('Пользователь с таким email уже существует', HttpStatus.BAD_REQUEST)
+        }
         if (dto.group_name) {
             dto['group_id'] = await this.groupsService.createGroup(dto.group_name)
         }
@@ -75,7 +83,8 @@ export class UsersService {
         const user = await this.getUserById(id)
         let filePath = ''
         if (file.image) {
-            filePath = await this.fileService.createFile(file.image[0], this.avatarDirectory)
+            const {path} = await this.fileService.createFile(file.image[0], this.avatarDirectory)
+            filePath = path
             await this.fileService.deleteFile(user.avatar)
         }
         return await user.update({

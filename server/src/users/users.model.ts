@@ -3,6 +3,8 @@ import {UserType} from "./user-types.model";
 import {Group} from "../groups/groups.model";
 import {RecoveryToken} from "../recovery-tokens/recovery-tokens.model";
 import {RequestTemplate} from "../request-templates/request-templates.model";
+import {Request} from "../requests/requests.model"
+import {RequestMessage} from "../requests/request-messages.model";
 
 @Table({tableName: 'user'})
 export class User extends Model<User> {
@@ -59,4 +61,10 @@ export class User extends Model<User> {
 
     @HasMany(() => RequestTemplate)
     requestTemplate: RequestTemplate
+
+    @HasMany(() => Request)
+    requests: Request
+
+    @HasMany(() => RequestMessage)
+    messages: RequestMessage
 }

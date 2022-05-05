@@ -11,5 +11,5 @@ export class ScheduleTitle extends Model<ScheduleTitle> {
     title: string
 
     @HasMany(() => Schedule)
-    schedule: Schedule
+    files: Schedule
 }

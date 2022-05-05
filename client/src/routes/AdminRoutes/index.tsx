@@ -10,6 +10,7 @@ import Schedule from "../../pages/Schedule";
 import Contacts from "../../pages/Contacts";
 import PrivateLayout from "../../components/layouts/PrivateLayout";
 import Profile from "../../pages/Profile";
+import RequestDetail from "../../pages/RequestDetail";
 
 const AdminRoutes: FC = () => {
     return (
@@ -18,7 +19,10 @@ const AdminRoutes: FC = () => {
                 <Route path={RoutesList.RequestTemplates} element={<RequestTemplates />} />
                 <Route path={RoutesList.Users} element={<Users />} />
                 <Route path={RoutesList.Queue} element={<Queue />} />
+
                 <Route path={RoutesList.Requests} element={<Requests />} />
+                <Route path={RoutesList.DetailRequest} element={<RequestDetail />} />
+
                 <Route path={RoutesList.News} element={<News />} />
                 <Route path={RoutesList.Schedule} element={<Schedule />} />
                 <Route path={RoutesList.Contacts} element={<Contacts />} />
