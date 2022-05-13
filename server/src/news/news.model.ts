@@ -12,7 +12,7 @@ export class News extends Model<News> {
     @Column({type: DataType.STRING, allowNull: false})
     title: string
 
-    @Column({type: DataType.STRING, allowNull: false})
+    @Column({type: DataType.TEXT, allowNull: false})
     text: string
 
     @Column({type: DataType.STRING})

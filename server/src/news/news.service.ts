@@ -56,12 +56,15 @@ export class NewsService {
     async updateNews(dto: UpdateNewsDto, files: any): Promise<News> {
         const news = await this.getNewsById(dto.id)
         let imagePath = news.image
-        if (files.image) {
+        if (files.image || dto.is_delete_image) {
+            imagePath = null
             await this.deleteImage(news.image)
-            imagePath = await this.saveImage(files.image[0])
+            if (files.image) {
+                imagePath = await this.saveImage(files.image[0])
+            }
         }
-        if (dto.deleted_docs) {
-            await this.deleteDocs(dto.deleted_docs)
+        if (dto.deleted_files) {
+            await this.deleteDocs(JSON.parse(dto.deleted_files))
         }
         if (dto.is_groups_change) {
             await this.deleteNewsGroups(dto.id)
@@ -116,8 +119,10 @@ export class NewsService {
 
 
     private async saveNewsGroup(newsId: number, groupsId: number[]): Promise<void> {
-        for (let i = 0; i < groupsId.length; i++) {
-            await this.newsGroupRepository.create({news_id: newsId, group_id: groupsId[i]})
+        if (groupsId) {
+            for (let i = 0; i < groupsId.length; i++) {
+                await this.newsGroupRepository.create({news_id: newsId, group_id: groupsId[i]})
+            }
         }
     }
 
@@ -142,7 +147,10 @@ export class NewsService {
 
 
     private async deleteImage(filePath: string): Promise<boolean> {
-        return await this.fileService.deleteFile(filePath)
+        if (filePath) {
+            return await this.fileService.deleteFile(filePath)
+        }
+        return false
     }
 
 

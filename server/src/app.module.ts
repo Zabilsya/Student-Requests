@@ -40,7 +40,8 @@ import { WebsocketModule } from './websocket/websocket.module';
           envFilePath: '.env'
       }),
       ServeStaticModule.forRoot({
-          rootPath: path.resolve(__dirname, 'static')
+          rootPath: path.resolve(__dirname, 'static'),
+          exclude: ['/news']
       }),
       SequelizeModule.forRoot({
         dialect: 'postgres',

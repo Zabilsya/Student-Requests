@@ -7,7 +7,7 @@ import {
     Put,
     Query,
     Req,
-    UploadedFile, UploadedFiles,
+    UploadedFiles,
     UseGuards,
     UseInterceptors
 } from '@nestjs/common';
@@ -45,6 +45,7 @@ export class NewsController {
     }
 
 
+    @UseGuards(JwtAuthGuard)
     @Delete('/delete/:id')
     delete(@Param('id') id: number) {
         return this.newsService.deleteNews(id)

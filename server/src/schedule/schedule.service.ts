@@ -38,9 +38,10 @@ export class ScheduleService {
             await scheduleTitle.update({title: dto.title})
         }
         if (dto.deleted_files) {
-            for (let i = 0; i < dto.deleted_files.length; i++) {
-                await this.scheduleRepository.destroy({where: {id: dto.deleted_files[i]['id']}})
-                await this.fileService.deleteFile(dto.deleted_files[i]['file_path'])
+            const files = JSON.parse(dto.deleted_files)
+            for (let i = 0; i < files.length; i++) {
+                await this.scheduleRepository.destroy({where: {id: files[i]['id']}})
+                await this.fileService.deleteFile(files[i]['file_path'])
             }
         }
         await this.createFiles(scheduleTitle.id, files.docs)

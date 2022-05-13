@@ -9,6 +9,6 @@ export class UpdateScheduleDto {
     readonly title?: string
 
     @IsOptional()
-    @IsObject({each: true, message: 'Список файлов должен быть массивом объектов'})
+    @IsString({each: true, message: 'Список файлов должен быть массивом объектов'})
     readonly deleted_files?: string
 }
