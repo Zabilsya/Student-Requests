@@ -24,9 +24,7 @@ const UsersTable: FC<Props> = ({users}) => {
             {users.map(user => (
                 <TableRowBody key={user.id}>
                     <TableCell width="33%%">
-                        {user.surname}&nbsp;
-                        {user.name}&nbsp;
-                        {user.patronymic && user.patronymic}
+                        {}
                     </TableCell>
                     <TableCell width="12%">
                         {user.user_type === UserTypes.Student ? user.group.name : user.position}

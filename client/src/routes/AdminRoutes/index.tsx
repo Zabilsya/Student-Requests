@@ -11,6 +11,7 @@ import Contacts from "../../pages/Contacts";
 import PrivateLayout from "../../components/layouts/PrivateLayout";
 import Profile from "../../pages/Profile";
 import RequestDetail from "../../pages/RequestDetail";
+import NewsDetail from "../../pages/NewsDetail";
 
 const AdminRoutes: FC = () => {
     return (
@@ -24,6 +25,7 @@ const AdminRoutes: FC = () => {
                 <Route path={RoutesList.DetailRequest} element={<RequestDetail />} />
 
                 <Route path={RoutesList.News} element={<News />} />
+                <Route path={RoutesList.DetailNews} element={<NewsDetail />} />
                 <Route path={RoutesList.Schedule} element={<Schedule />} />
                 <Route path={RoutesList.Contacts} element={<Contacts />} />
                 <Route path={RoutesList.Profile} element={<Profile />} />

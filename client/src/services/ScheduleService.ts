@@ -35,28 +35,28 @@ export const scheduleAPI = createApi({
             }),
             providesTags: result => ['Schedule']
         }),
-        createSchedule: build.mutation<ISchedule, ISchedule>({
-            query: (post) => ({
+        createSchedule: build.mutation<ISchedule, FormData>({
+            query: (data) => ({
                 url: `/create`,
                 method: 'POST',
-                body: post
+                body: data
             }),
             invalidatesTags: ['Schedule']
         }),
-        // updatePost: build.mutation<IPost, IPost>({
-        //     query: (post) => ({
-        //         url: `/posts/${post.id}`,
-        //         method: 'PUT',
-        //         body: post
-        //     }),
-        //     invalidatesTags: ['Post']
-        // }),
-        // deletePost: build.mutation<IPost, IPost>({
-        //     query: (post) => ({
-        //         url: `/posts/${post.id}`,
-        //         method: 'DELETE',
-        //     }),
-        //     invalidatesTags: ['Post']
-        // }),
+        updateSchedule: build.mutation<ISchedule, FormData>({
+            query: (data) => ({
+                url: `/update`,
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['Schedule']
+        }),
+        deleteSchedule: build.mutation<ISchedule, number>({
+            query: (id) => ({
+                url: `/delete/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Schedule']
+        }),
     })
 })

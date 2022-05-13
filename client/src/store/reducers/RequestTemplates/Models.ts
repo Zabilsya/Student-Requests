@@ -7,7 +7,8 @@ export interface IRequestTemplate {
     user: IUser
 }
 
-export interface ICreateTemplate {
+export interface IChangeTemplate {
+    id?: number
     name: string
     is_offline: boolean
     user_id: number

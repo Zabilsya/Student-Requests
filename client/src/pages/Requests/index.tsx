@@ -43,7 +43,7 @@ const Requests: FC = () => {
         const formData = new FormData()
         formData.append('template_id', String(data.template_id))
         data.files.forEach(file => {
-            formData.append('files', file as Blob)
+            formData.append('files', file)
         })
         createRequest(formData)
     }
@@ -85,7 +85,6 @@ const Requests: FC = () => {
             {templates && templates.length > 0 && isOpenModal &&
                 <ModalWrapper title="Создание обращения" onClose={closeModal}>
                     <RequestsModal
-                        mode={ModalMode.Create}
                         templates={templates}
                         onSubmit={saveRequest}
                         onClose={closeModal}

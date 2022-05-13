@@ -7,21 +7,33 @@ import {getDataForSelect} from "../../../utils";
 import {MarginWrapper} from "../../styled/wrappers";
 import ModalButtons from "../../common/ModalButtons";
 import {IOption} from "../../../types/select";
-import {ICreateTemplate} from "../../../store/reducers/RequestTemplates/Models";
+import {IChangeTemplate, IRequestTemplate} from "../../../store/reducers/RequestTemplates/Models";
 
 interface Props {
-    mode: ModalMode
+    initialData: IRequestTemplate | null
     workers: IUser[]
     onClose: () => void
-    onSubmit: (data: ICreateTemplate) => void
+    onSubmit: (data: IChangeTemplate, type: ModalMode) => void
 }
 
-const RequestTemplatesModal: FC<Props> = ({mode, workers, onSubmit, onClose}) => {
-    const [form, setForm] = useState({
+const RequestTemplatesModal: FC<Props> = ({initialData, workers, onSubmit, onClose}) => {
+    const [form, setForm] = useState<IChangeTemplate>({
+        id: 0,
         name: '',
         user_id: 1,
         is_offline: false
     })
+
+    useEffect(() => {
+        if (initialData) {
+            setForm({
+                id: initialData.id,
+                name: initialData.name,
+                user_id: initialData.user.id,
+                is_offline: initialData.is_offline
+            })
+        }
+    }, [initialData])
 
     const onChange = (option: IOption | null) => {
         if (option?.value) {
@@ -29,9 +41,14 @@ const RequestTemplatesModal: FC<Props> = ({mode, workers, onSubmit, onClose}) =>
         }
     }
 
-    const createTemplate = (event: FormEvent<HTMLFormElement>) => {
+    const changeTemplate = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        onSubmit(form)
+        if (initialData) {
+            onSubmit(form, ModalMode.Update)
+        } else {
+            delete form.id
+            onSubmit(form, ModalMode.Create)
+        }
     }
 
     const options = useMemo(() => {
@@ -39,11 +56,14 @@ const RequestTemplatesModal: FC<Props> = ({mode, workers, onSubmit, onClose}) =>
     }, [workers])
 
     useEffect(() => {
-        setForm({...form, user_id: options[0].value})
+        if (!initialData) {
+            setForm({...form, user_id: options[0].value})
+        }
     }, [options])
 
+
     return (
-        <form onSubmit={createTemplate}>
+        <form onSubmit={changeTemplate}>
             <MarginWrapper bottom="20px">
                 <Input
                     name="name"
@@ -58,14 +78,17 @@ const RequestTemplatesModal: FC<Props> = ({mode, workers, onSubmit, onClose}) =>
             </MarginWrapper>
             <CustomSelect
                 label="Ответственный"
-                defaultValue={options[0]}
+                defaultValue={
+                    initialData
+                    ? getDataForSelect([initialData.user], 'id', ['name', 'surname', 'patronymic'])
+                    : options[0]}
                 options={options}
                 fullWidth
                 onChange={onChange}
                 isSearchable={true}
             />
             <MarginWrapper top="50px">
-                <ModalButtons mode={mode} onClose={onClose} />
+                <ModalButtons initialData={initialData} onClose={onClose} />
             </MarginWrapper>
         </form>
     );

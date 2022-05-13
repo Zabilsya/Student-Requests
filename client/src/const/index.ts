@@ -7,6 +7,7 @@ export enum RoutesList {
     DetailRequest = '/requests/:id',
     RequestTemplates = '/request-templates',
     News = '/news',
+    DetailNews = '/news/:id',
     Queue = '/queue',
     Users = '/users',
     Profile = '/profile',
@@ -52,6 +53,10 @@ export const requestStatusesForFilter = [
 ]
 
 export const defaultRequestTemplateForFilter = {
+    value: 0, label: 'Все'
+}
+
+export const defaultGroupForFilter = {
     value: 0, label: 'Все'
 }
 

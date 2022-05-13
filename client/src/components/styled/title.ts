@@ -16,7 +16,7 @@ export const Title = styled.h1<TitleProps>`
 export const SubTitle = styled.h2<TitleProps>`
     font-size: 18px;
     font-weight: 700;
-    margin: 0 0 15px 0;
+    margin: 0;
     color: ${({color}) => color === 'blue' ? blue : black};
     line-height: 1.6;
 `

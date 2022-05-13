@@ -4,16 +4,16 @@ import {ModalMode} from "../../../const";
 import {ButtonsWrapper} from "./styles";
 
 interface Props {
-    mode: ModalMode
+    initialData?: any
     onClose: () => void
 }
 
-const ModalButtons: FC<Props> = ({mode, onClose}) => {
+const ModalButtons: FC<Props> = ({initialData, onClose}) => {
     return (
         <ButtonsWrapper>
             <Button variant="outline" type="button" onClick={onClose}>Отменить</Button>
             <Button type="submit">
-                {mode === ModalMode.Create ? "Создать" : "Сохранить"}
+                {initialData ? "Сохранить" : "Создать"}
             </Button>
         </ButtonsWrapper>
     );

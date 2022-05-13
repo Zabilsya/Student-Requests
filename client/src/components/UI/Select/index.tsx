@@ -26,6 +26,7 @@ function CustomSelect<
             <Select
                 className={`custom-select ${fullWidth ? "select-full" : ""}`}
                 classNamePrefix="custom-select"
+                noOptionsMessage={() => 'Выбраны все варианты'}
                 {...props}
             />
         </SelectWrapper>

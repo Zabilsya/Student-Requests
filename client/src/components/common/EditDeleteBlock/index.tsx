@@ -4,18 +4,19 @@ import {IoCreateOutline, IoTrashOutline} from "react-icons/io5";
 import {white} from "../../../const/styles";
 
 interface Props {
-    onEdit: (event: MouseEvent) => void
-    onDelete: (event: MouseEvent) => void
+    onEdit: () => void
+    onDelete: () => void
+    inTable?: boolean
 }
 
-const EditDeleteBLock: FC<Props> = ({onEdit, onDelete}) => {
+const EditDeleteBLock: FC<Props> = ({onEdit, onDelete, inTable}) => {
     return (
-        <EditDeleteBlockStyled>
+        <EditDeleteBlockStyled inTable={inTable}>
             <EditButton onClick={onEdit}>
-                <IoCreateOutline size="14px" color={white} />
+                <IoCreateOutline size="16px" color={white} />
             </EditButton>
             <DeleteButton onClick={onDelete}>
-                <IoTrashOutline size="14px" color={white} />
+                <IoTrashOutline size="16px" color={white} />
             </DeleteButton>
         </EditDeleteBlockStyled>
     );

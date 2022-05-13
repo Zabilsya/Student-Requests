@@ -15,6 +15,7 @@ const WorkerRoutes: FC = () => {
                 <Route path={RoutesList.Requests} element={<Requests />} />
                 <Route path={RoutesList.DetailRequest} element={<RequestDetail />} />
                 <Route path={RoutesList.News} element={<News />} />
+                <Route path={RoutesList.DetailRequest} element={<RequestDetail />} />
                 <Route path="*" element={<Navigate to={RoutesList.Requests} />} />
             </Routes>
         </PrivateLayout>

@@ -1,12 +1,11 @@
 import styled from "@emotion/styled";
 import {blue, flexFullCenter, lightBlue, transition, white} from "../../../const/styles";
-import {css} from "@emotion/react";
 
 interface DocumentStyledProps {
     fullWidth?: boolean
 }
 
-export const DocumentStyled = styled.a<DocumentStyledProps>`
+export const DocumentStyled = styled.div<DocumentStyledProps>`
     position: relative;
     display: flex;
     align-items: flex-end;
@@ -16,6 +15,7 @@ export const DocumentStyled = styled.a<DocumentStyledProps>`
     background: ${lightBlue};
     border-radius: 10px;
     padding: 10px 15px;
+    cursor: pointer;
     ${transition};
     
     svg {

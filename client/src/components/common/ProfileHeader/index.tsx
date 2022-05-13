@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Initials, ProfileDataWrapper} from "./styles";
 import DropDownProfile from "../DropDownProfile";
 import {useAppSelector} from "../../../hooks/redux";
+import {getSurnameWithInitials} from "../../../utils";
 
 const ProfileHeader = () => {
     const { profile } = useAppSelector(state => state.authReducer)
@@ -26,9 +27,7 @@ const ProfileHeader = () => {
             {profile &&
                 <ProfileDataWrapper onClick={handleClick}>
                     <Initials>
-                        {profile.surname}&nbsp;
-                        {profile.name[0]}.
-                        {profile.patronymic && profile.patronymic[0] + "."}
+                        {getSurnameWithInitials(profile)}
                     </Initials>
                     <DropDownProfile active={isActiveDropDown} />
                 </ProfileDataWrapper>

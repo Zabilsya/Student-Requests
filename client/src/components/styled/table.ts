@@ -39,8 +39,9 @@ export const TableBody = styled.tbody`
 
 export const TableRowBody = styled.tr`
     display: flex;
+    align-items: center;
     width: 100%;
-    padding: 25px 15px;
+    padding: 18px 15px;
     border-bottom: 1px solid #F5F5F5;
     
     :last-of-type {

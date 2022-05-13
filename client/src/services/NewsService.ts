@@ -2,11 +2,12 @@ import {BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError} from "@redu
 import { createApi } from '@reduxjs/toolkit/query/react'
 import browserHistory from "../routes/history";
 import {RoutesList} from "../const";
-import {IChangeTemplate, IRequestTemplate} from "../store/reducers/RequestTemplates/Models";
 import {IPaginationData} from "../types/pagination";
+import {ICreateRequest, IMessage, IRequest, IRequestFilter} from "../store/reducers/Requests/Interfaces";
+import {INews} from "../store/reducers/News/Interfaces";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_URL + '/request-templates',
+    baseUrl: process.env.REACT_APP_API_URL + '/news',
     prepareHeaders: (headers => {
         if (localStorage.getItem('jwtToken')) {
             headers.set('Authorization', `Bearer ${localStorage.getItem('jwtToken')}`)
@@ -24,54 +25,48 @@ const queryInterceptor: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryE
         return result
     }
 
-export const requestTemplatesAPI = createApi({
-    reducerPath: 'requestTemplatesAPI',
+export const newsAPI = createApi({
+    reducerPath: 'newsAPI',
     baseQuery: queryInterceptor,
-    tagTypes: ['RequestTemplates', 'RequestAllTemplates', 'RequestTemplatesForUser'],
+    tagTypes: ['News', 'DetailNews'],
     endpoints: (build) => ({
-        getTemplates: build.query<IPaginationData<IRequestTemplate>, number>({
-            query: (page: number) => ({
-                url: `/get`,
+        getNews: build.query<IPaginationData<INews>, number>({
+            query: (page) => ({
+                url: `/get-all`,
                 params: {
                     page: page
                 }
             }),
-            providesTags: result => ['RequestTemplates']
+            providesTags: result => ['News']
         }),
-        getAllTemplates: build.query<IRequestTemplate[], void>({
-            query: () => ({
-                url: `/get-all`
+        getDetailNews: build.query<INews, string>({
+            query: (id) => ({
+                url: `/get/${id}`,
             }),
-            providesTags: result => ['RequestAllTemplates']
+            providesTags: result => ['DetailNews']
         }),
-        getTemplatesForUser: build.query<IRequestTemplate[], void>({
-            query: (data) => ({
-                url: `/get-list`
-            }),
-            providesTags: ['RequestTemplatesForUser']
-        }),
-        createTemplate: build.mutation<IRequestTemplate, IChangeTemplate>({
+        createNews: build.mutation<INews, FormData>({
             query: (data) => ({
                 url: `/create`,
                 method: 'POST',
                 body: data
             }),
-            invalidatesTags: ['RequestTemplates']
+            invalidatesTags: ['News']
         }),
-        updateTemplate: build.mutation<IChangeTemplate, IChangeTemplate>({
+        updateNews: build.mutation<INews, FormData>({
             query: (data) => ({
                 url: `/update`,
                 method: 'PUT',
                 body: data
             }),
-            invalidatesTags: ['RequestTemplates']
+            invalidatesTags: ['News', 'DetailNews']
         }),
-        deleteTemplate: build.mutation<IRequestTemplate, number>({
+        deleteNews: build.mutation<void, number>({
             query: (id) => ({
                 url: `/delete/${id}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: ['RequestTemplates']
+            invalidatesTags: ['News']
         }),
     })
 })

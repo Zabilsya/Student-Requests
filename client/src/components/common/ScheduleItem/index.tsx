@@ -5,21 +5,32 @@ import {ISchedule} from "../../../store/reducers/Schedule/Models";
 import Document from "../Document";
 import EditDeleteBLock from "../EditDeleteBlock";
 
-const ScheduleItem: FC<ISchedule> = ({title, files}) => {
+interface Props {
+    schedule: ISchedule
+    onEdit: (schedule: ISchedule) => void
+    onDelete: (id: number) => void
+}
+
+const ScheduleItem: FC<Props> = ({schedule, onEdit, onDelete}) => {
     return (
         <ScheduleItemWrapper>
             <MarginWrapper bottom="15px">
-                <ScheduleTitle>{title}</ScheduleTitle>
+                <FlexWrapper gap="15px">
+                    <ScheduleTitle>{schedule.title}</ScheduleTitle>
+                    <EditDeleteBLock
+                        onEdit={() => onEdit(schedule)}
+                        onDelete={() => onDelete(schedule.id)}
+                    />
+                </FlexWrapper>
             </MarginWrapper>
             <ScheduleFilesWrapper>
-                {files && files.map(file => (
+                {schedule.files && schedule.files.map(file => (
                     <FlexWrapper gap="15px" key={file.id}>
                         <Document
                             file_name={file.file_name}
                             file_path={process.env.REACT_APP_API_URL + '/' + file.file_path}
                             fullWidth
                         />
-                        <EditDeleteBLock onEdit={() => {}} onDelete={() => {}} />
                     </FlexWrapper>
                 ))}
             </ScheduleFilesWrapper>

@@ -7,16 +7,14 @@ import {getDataForSelect} from "../../../utils";
 import {IOption} from "../../../types/select";
 import {ICreateRequest} from "../../../store/reducers/Requests/Interfaces";
 import InputFiles from "../../UI/InputFiles";
-import {ModalMode} from "../../../const";
 
 interface Props {
-    mode: ModalMode
     templates: IRequestTemplate[]
     onClose: () => void
     onSubmit: (data: ICreateRequest) => void
 }
 
-const RequestsModal: FC<Props> = ({mode, templates, onSubmit, onClose}) => {
+const RequestsModal: FC<Props> = ({templates, onSubmit, onClose}) => {
     const [form, setForm] = useState({
         template_id: 1,
         files: [] as File[]
@@ -62,7 +60,7 @@ const RequestsModal: FC<Props> = ({mode, templates, onSubmit, onClose}) => {
                 onChangeFiles={changeFiles}
             />
             <MarginWrapper top="50px">
-                <ModalButtons mode={mode} onClose={onClose} />
+                <ModalButtons onClose={onClose} />
             </MarginWrapper>
         </form>
     );

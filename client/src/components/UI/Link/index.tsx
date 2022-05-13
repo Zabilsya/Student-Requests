@@ -4,16 +4,17 @@ import {ReactClick} from "../../../types/react";
 import {noop} from "../../../const";
 
 interface Props extends ReactClick<HTMLButtonElement> {
+    color?: string
     href?: string
     children?: ReactNode | null
 }
 
-const Link: FC<Props> = ({href, children, onClick = noop}) => {
+const Link: FC<Props> = ({color, href, children, onClick = noop}) => {
     return (
         <>
             {href
-                ? <LinkLineStyled to={href}>{children}</LinkLineStyled>
-                : <ButtonLineStyled onClick={onClick}>{children}</ButtonLineStyled>
+                ? <LinkLineStyled color={color} to={href}>{children}</LinkLineStyled>
+                : <ButtonLineStyled color={color} onClick={onClick}>{children}</ButtonLineStyled>
             }
         </>
     )

@@ -4,6 +4,8 @@ import {usersAPI} from "../services/UsersService";
 import {scheduleAPI} from "../services/ScheduleService";
 import {requestTemplatesAPI} from "../services/RequestTemplatesService";
 import {requestsAPI} from "../services/RequestsService";
+import {newsAPI} from "../services/NewsService";
+import {groupsAPI} from "../services/GroupsService";
 
 const rootReducer = combineReducers({
     authReducer,
@@ -11,6 +13,8 @@ const rootReducer = combineReducers({
     [scheduleAPI.reducerPath]: scheduleAPI.reducer,
     [requestTemplatesAPI.reducerPath]: requestTemplatesAPI.reducer,
     [requestsAPI.reducerPath]: requestsAPI.reducer,
+    [newsAPI.reducerPath]: newsAPI.reducer,
+    [groupsAPI.reducerPath]: groupsAPI.reducer,
 })
 
 export const setupStore = () => {
@@ -22,7 +26,9 @@ export const setupStore = () => {
                     usersAPI.middleware,
                     scheduleAPI.middleware,
                     requestTemplatesAPI.middleware,
-                    requestsAPI.middleware
+                    requestsAPI.middleware,
+                    newsAPI.middleware,
+                    groupsAPI.middleware
                 ),
     })
 }

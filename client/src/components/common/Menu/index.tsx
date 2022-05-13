@@ -1,7 +1,17 @@
 import React, {useState} from 'react';
 import {MenuList, MenuItem, MenuItemWithChildren, MenuSubItemList, MenuSubItem} from "./styles";
 import {RoutesList} from "../../../const";
-import {IoChevronDownOutline, IoChevronUpOutline, IoNewspaperOutline} from "react-icons/io5";
+import {
+    IoCalendarOutline,
+    IoChevronDownOutline,
+    IoChevronUpOutline,
+    IoGitPullRequestOutline,
+    IoHomeOutline,
+    IoInformationOutline,
+    IoNewspaperOutline,
+    IoPeopleOutline,
+    IoSettingsOutline,
+} from "react-icons/io5";
 import {lightGray} from "../../../const/styles";
 import {FlexWrapper} from "../../styled/wrappers";
 import {DropDownButton} from "../DropDownProfile/styles";
@@ -23,22 +33,22 @@ const Menu = () => {
             </MenuItem>
 
             <MenuItem to={RoutesList.Requests}>
-                <IoNewspaperOutline size="25px" color={lightGray} />
-                Мои запросы
+                <IoGitPullRequestOutline size="25px" color={lightGray} />
+                Мои обращения
             </MenuItem>
 
             <MenuItem to={RoutesList.RequestTemplates}>
-                <IoNewspaperOutline size="25px" color={lightGray} />
-                Управление запросами
+                <IoSettingsOutline size="25px" color={lightGray} />
+                Управление обращениями
             </MenuItem>
 
             <MenuItem to={RoutesList.Users}>
-                <IoNewspaperOutline size="25px" color={lightGray} />
+                <IoPeopleOutline size="25px" color={lightGray} />
                 Пользователи
             </MenuItem>
 
             <MenuItem to={RoutesList.Schedule}>
-                <IoNewspaperOutline size="25px" color={lightGray} />
+                <IoCalendarOutline size="25px" color={lightGray} />
                 Расписание занятий
             </MenuItem>
 
@@ -47,7 +57,7 @@ const Menu = () => {
                 onClick={() => setIsActiveSubMenuItem({...isActiveSubMenuItem, office: !isActiveSubMenuItem.office})}
             >
                 <FlexWrapper gap="15px">
-                    <IoNewspaperOutline size="25px" color={lightGray} />
+                    <IoHomeOutline size="25px" color={lightGray} />
                     Учебный офис
                     <DropDownButton>
                         {isActiveSubMenuItem.office ? <IoChevronUpOutline size="14px" /> : <IoChevronDownOutline size="14px" />}
@@ -60,7 +70,7 @@ const Menu = () => {
             </MenuItemWithChildren>
 
             <MenuItem to={RoutesList.FAQ}>
-                <IoNewspaperOutline size="25px" color={lightGray} />
+                <IoInformationOutline size="25px" color={lightGray} />
                 Часто задаваемые вопросы
             </MenuItem>
 

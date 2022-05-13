@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import {backdropOnMobile, black, defaultBlockStyles, white} from "../../const/styles";
+import {backdropOnMobile, black, blue, defaultBlockStyles, flexFullCenter, lightBlue, white} from "../../const/styles";
 
 interface FormWrapperProps {
     type?: 'modal' | 'default'
@@ -11,6 +11,16 @@ export const FormWrapper = styled.div<FormWrapperProps>`
     max-height: 90vh;
     padding: 30px;
     ${defaultBlockStyles};
+`
+
+export const FilesLoaderWrapper = styled.button`
+    ${flexFullCenter};
+    width: 100%;
+    height: 90px;
+    border: 2px dashed ${blue};
+    background: ${lightBlue};
+    border-radius: 10px;
+    cursor: pointer;
 `
 
 export const FilterPanelWrapper = styled.div`

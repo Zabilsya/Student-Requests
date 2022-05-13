@@ -5,3 +5,11 @@ export interface ISchedule {
     title: string
     files: IFile[]
 }
+
+export interface IChangeSchedule {
+    id: number
+    title: string
+    files: File[]
+    filesFromServer: IFile[]
+    deletedFiles: IFile[]
+}
